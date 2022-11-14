@@ -1,0 +1,77 @@
+﻿<Window x:Class="CreditCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CreditCalculator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400"
+        SizeToContent="Height"
+        FontSize="25">
+
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="test" />
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Vertical">
+
+            <DockPanel>
+                <TextBlock Text="Loan amount: " />
+                
+                <TextBox  HorizontalAlignment="Stretch"
+                          TextAlignment="Right"
+                          Text="{Binding LoanAmount}"/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Interest rate p.a. (%): " />
+                
+                <TextBox  HorizontalAlignment="Stretch"
+                          TextAlignment="Right"
+                          Text="{Binding InterestRatePerYearInPercent}"/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Payments p.a.: " />
+
+                <TextBox  HorizontalAlignment="Stretch"
+                          TextAlignment="Right"
+                          Text="{Binding PaymentsPerYear}"/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Annuity: " />
+
+                <TextBox  HorizontalAlignment="Stretch"
+                          TextAlignment="Right"
+                          Text="{Binding Annuity}"/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Credit period: " />
+
+                <TextBox  HorizontalAlignment="Stretch"
+                          TextAlignment="Right"
+                          Text="{Binding CreditPeriod}"/>
+            </DockPanel>
+        </StackPanel>
+        
+    </Grid>
+</Window>
