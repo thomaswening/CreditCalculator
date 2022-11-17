@@ -24,5 +24,15 @@ namespace CreditCalculator
         {
             InitializeComponent();
         }
+
+        private void txtAnnuity_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ((ViewModel)DataContext).ClearCreditPeriod();
+        }
+
+        private void txtCreditPeriod_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ((ViewModel)DataContext).ClearAnnuity();
+        }
     }
 }

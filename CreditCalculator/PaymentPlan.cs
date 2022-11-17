@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,86 +8,74 @@ using System.Windows;
 
 namespace CreditCalculator
 {
-    internal class PaymentPlan
+    internal class PaymentPlan : INotifyPropertyChanged
     {
+
+        #region Fields
+
+        double trueCreditPeriod;
         double annuity;
-        double loanAmount;
-        double interestRatePerYear;
         int creditPeriod;
-        int paymentsPerYear;
 
-        public double LoanAmount 
-        {
-            get => loanAmount;
-            set
-            {
-                loanAmount = value;
-                CalculateAnnuity();
-                CalculateCreditPeriod();
-            }
-        }
-        public double Annuity 
-        { 
-            get => annuity;
-            set
-            {
-                annuity = value;
-                CalculateCreditPeriod();
-            }
-        }
+        #endregion Fields
 
-        public double InterestRatePerYear 
-        {
-            get => interestRatePerYear;
-            set
-            {
-                interestRatePerYear = value;
-                Calculate();
-            }
-        } 
+        #region Properties
 
-        public int CreditPeriod 
+        public double LoanAmount { get; set; }
+        public int PaymentsPerYear { get; set; }        
+        public double InterestRatePerYear { get; set; }
+
+        public int CreditPeriod
         {
             get => creditPeriod;
             set
             {
-                creditPeriod = value;
-                Calculate();
+                if (creditPeriod != value)
+                {
+                    creditPeriod = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreditPeriod)));
+                }
+            }
+        }
+        public double Annuity
+        {
+            get => annuity;
+            set
+            {
+                if (annuity != value)
+                {
+                    annuity = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Annuity)));
+                }
             }
         }
 
-        public int PaymentsPerYear 
-        {
-            get => paymentsPerYear;
-            set
-            {
-                paymentsPerYear = value;
-                Calculate();
-            }
-        }
 
         private double interestRate => InterestRatePerYear / PaymentsPerYear;
         private double qFactor => 1 + interestRate;
-        private double trueCreditPeriod;
 
-        void Calculate()
-        {
-            CalculateAnnuity();
-            CalculateCreditPeriod();
-        }
+        #endregion Properties
 
-        void CalculateAnnuity()
+        #region Events
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion Events
+
+        #region Private Methods
+
+        public void CalculateAnnuity()
         {
-            if (CreditPeriod > 0 && LoanAmount > 0 && Annuity == 0)
+            if (CreditPeriod > 0 && LoanAmount > 0)
             {
                 double qn = Math.Pow(qFactor, (double)CreditPeriod);
                 Annuity = LoanAmount * qn * (1 - qFactor) / (1 - qn);
             }                
         }
 
-        void CalculateCreditPeriod()
+        public void CalculateCreditPeriod()
         {
-            if (Annuity > 0 && LoanAmount > 0 && CreditPeriod == 0)
+            if (Annuity > 0 && LoanAmount > 0)
             {
                 try
                 {
@@ -96,6 +85,7 @@ namespace CreditCalculator
                         throw new Exception($"The annuity must be greater than {annuityLimit}.");
                     }
 
+                    // trueCreditPeriod: t = -ln(1 - i*K/A) / ln(1 + i)
                     trueCreditPeriod = -Math.Log(1 - interestRate * LoanAmount / Annuity) / Math.Log(1 + interestRate);
                     CreditPeriod = Convert.ToInt32(Math.Ceiling(trueCreditPeriod));
                 }
@@ -106,5 +96,8 @@ namespace CreditCalculator
                 }
             }
         }
+
+        #endregion Private Methods
+
     }
 }

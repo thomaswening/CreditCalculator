@@ -6,12 +6,20 @@
         xmlns:local="clr-namespace:CreditCalculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
+        
+        xmlns:vc="clr-namespace:CreditCalculator.ValueConverter"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         SizeToContent="Height"
         FontSize="25">
 
     <Window.DataContext>
-        <local:MainWindowViewModel />
+        <local:ViewModel />
     </Window.DataContext>
+
+    <Window.Resources>
+        <vc:CurrencyVC x:Key="currency"/>
+        <vc:PercentVC x:Key="percent"/>
+    </Window.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -37,7 +45,7 @@
                 
                 <TextBox  HorizontalAlignment="Stretch"
                           TextAlignment="Right"
-                          Text="{Binding LoanAmount}"/>
+                          Text="{Binding LoanAmount, Converter={StaticResource currency}, ConverterParameter=€}"/>
             </DockPanel>
 
             <DockPanel>
@@ -45,7 +53,7 @@
                 
                 <TextBox  HorizontalAlignment="Stretch"
                           TextAlignment="Right"
-                          Text="{Binding InterestRatePerYearInPercent}"/>
+                          Text="{Binding InterestRatePerYear, Converter={StaticResource percent}}"/>
             </DockPanel>
 
             <DockPanel>
@@ -59,17 +67,22 @@
             <DockPanel>
                 <TextBlock Text="Annuity: " />
 
-                <TextBox  HorizontalAlignment="Stretch"
+                <TextBox  x:Name="txtAnnuity" 
+                          HorizontalAlignment="Stretch"
                           TextAlignment="Right"
-                          Text="{Binding Annuity}"/>
+                          Text="{Binding Annuity, Converter={StaticResource currency}, ConverterParameter=€}"
+                          GotFocus="txtAnnuity_GotFocus" 
+                          />
             </DockPanel>
 
             <DockPanel>
                 <TextBlock Text="Credit period: " />
 
-                <TextBox  HorizontalAlignment="Stretch"
+                <TextBox  x:Name="txtCreditPeriod"
+                          HorizontalAlignment="Stretch"
                           TextAlignment="Right"
-                          Text="{Binding CreditPeriod}"/>
+                          Text="{Binding CreditPeriod}" GotFocus="txtCreditPeriod_GotFocus">
+                </TextBox>
             </DockPanel>
         </StackPanel>
         
