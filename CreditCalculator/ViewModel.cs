@@ -125,6 +125,12 @@ namespace CreditCalculator
         public void ClearAnnuity() => Annuity = null;
         public void ClearCreditPeriod() => CreditPeriod = null;
 
+        /// <summary>
+        /// Updates the ViewModel's Annuity and CreditPeriod fields when the model has changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
         void OnModelChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -142,6 +148,10 @@ namespace CreditCalculator
             }
         }
 
+        /// <summary>
+        /// Discerns whether the payment plan is calculable and the model can be updated, given the current values in the ViewModel.
+        /// </summary>
+        /// <returns>True if the payment plan is calculable, else false.</returns>
         bool IsPaymentPlanCalculable()
         {
             List<object?> variables = new()
@@ -162,6 +172,7 @@ namespace CreditCalculator
                 paymentPlan.InterestRatePerYear = (double)InterestRatePerYear!;
                 paymentPlan.PaymentsPerYear = (int)PaymentsPerYear!;
 
+                // Check which of (Annuity, CreditPeriod) must be calculated from the other
                 if (Annuity is null)
                 {
                     paymentPlan.CreditPeriod = (int)CreditPeriod!;
@@ -175,6 +186,11 @@ namespace CreditCalculator
             }
         }
 
+        /// <summary>
+        /// Enables Binding already after hitting the ENTER key.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void OnKeyEnterUp(object sender, KeyEventArgs e)
         {            
             TextBox tBox = (TextBox)sender;

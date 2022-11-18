@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace CreditCalculator.ValueConverter
 {
+    /// <summary>
+    /// Conversion of EUR into double and vice versa.
+    /// </summary>
     class CurrencyVC : IValueConverter
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
