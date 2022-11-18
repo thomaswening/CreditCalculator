@@ -25,14 +25,22 @@ namespace CreditCalculator
             InitializeComponent();
         }
 
-        private void txtAnnuity_GotFocus(object sender, RoutedEventArgs e)
+        private void txtAnnuity_KeyUp(object sender, KeyEventArgs e)
         {
-            ((ViewModel)DataContext).ClearCreditPeriod();
+            if (e.Key == Key.Enter)
+            {
+                ((ViewModel)DataContext).ClearCreditPeriod();
+                ((ViewModel)DataContext).OnKeyEnterUp(sender, e);
+            }
         }
 
-        private void txtCreditPeriod_GotFocus(object sender, RoutedEventArgs e)
+        private void txtCreditPeriod_KeyUp(object sender, KeyEventArgs e)
         {
-            ((ViewModel)DataContext).ClearAnnuity();
+            if (e.Key == Key.Enter)
+            {
+                ((ViewModel)DataContext).ClearAnnuity();
+                ((ViewModel)DataContext).OnKeyEnterUp(sender, e);
+            }
         }
     }
 }

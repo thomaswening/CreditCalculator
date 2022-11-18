@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace CreditCalculator
 {
@@ -13,11 +16,11 @@ namespace CreditCalculator
 
         #region Fields
 
-        double? loanAmount;
+        double? loanAmount = 30000;
         double? annuity;
-        double? interestRatePerYear;
+        double? interestRatePerYear = .055;
         int? creditPeriod;
-        int? paymentsPerYear;
+        int? paymentsPerYear = 12;
 
         readonly PaymentPlan paymentPlan = new();
 
@@ -170,6 +173,15 @@ namespace CreditCalculator
                     paymentPlan.CalculateCreditPeriod();
                 }
             }
+        }
+
+        internal void OnKeyEnterUp(object sender, KeyEventArgs e)
+        {            
+            TextBox tBox = (TextBox)sender;
+            DependencyProperty prop = TextBox.TextProperty;
+
+            BindingExpression binding = BindingOperations.GetBindingExpression(tBox, prop);
+            if (binding != null) { binding.UpdateSource(); }
         }
 
         #endregion Private Methods

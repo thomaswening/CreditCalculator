@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CreditCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400"
+        Title="MainWindow" Height="450" Width="500"
         
         xmlns:vc="clr-namespace:CreditCalculator.ValueConverter"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -18,7 +18,7 @@
 
     <Window.Resources>
         <vc:CurrencyVC x:Key="currency"/>
-        <vc:PercentVC x:Key="percent"/>
+        <vc:PercentVC x:Key="percent"/>        
     </Window.Resources>
 
     <Grid Margin="10">
@@ -26,65 +26,86 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="TextBlock" >
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="5" />
+            </Style>
+
+            <Style TargetType="TextBox" >
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="FontStyle" Value="Italic" />
+                <Setter Property="TextAlignment" Value="Right" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
+        </Grid.Resources>
 
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="test" />
 
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0"
-                    Orientation="Vertical">
+        <TextBlock Grid.Row="1" 
+                   Grid.Column="0" 
+                   Text="Loan amount: " />
 
-            <DockPanel>
-                <TextBlock Text="Loan amount: " />
-                
-                <TextBox  HorizontalAlignment="Stretch"
-                          TextAlignment="Right"
-                          Text="{Binding LoanAmount, Converter={StaticResource currency}, ConverterParameter=€}"/>
-            </DockPanel>
+        <TextBox Grid.Row="1" 
+                 Grid.Column="1" 
+                 TextAlignment="Right"
+                 Text="{Binding LoanAmount, Converter={StaticResource currency}, ConverterParameter=€}" />
 
-            <DockPanel>
-                <TextBlock Text="Interest rate p.a. (%): " />
-                
-                <TextBox  HorizontalAlignment="Stretch"
-                          TextAlignment="Right"
-                          Text="{Binding InterestRatePerYear, Converter={StaticResource percent}}"/>
-            </DockPanel>
+        <TextBlock Grid.Row="2" 
+                   Grid.Column="0" 
+                   Text="Interest rate p.a. (%): " />
 
-            <DockPanel>
-                <TextBlock Text="Payments p.a.: " />
+        <TextBox Grid.Row="2" 
+                 Grid.Column="1"
+                 TextAlignment="Right" 
+                 Text="{Binding InterestRatePerYear, Converter={StaticResource percent}}" />
 
-                <TextBox  HorizontalAlignment="Stretch"
-                          TextAlignment="Right"
-                          Text="{Binding PaymentsPerYear}"/>
-            </DockPanel>
+        <TextBlock Grid.Row="3" 
+                   Grid.Column="0" 
+                   Text="Payments p.a.: " />
 
-            <DockPanel>
-                <TextBlock Text="Annuity: " />
+        <TextBox  Grid.Row="3" 
+                  Grid.Column="1" 
+                  HorizontalAlignment="Stretch"
+                  TextAlignment="Right"
+                  Text="{Binding PaymentsPerYear}" />
 
-                <TextBox  x:Name="txtAnnuity" 
-                          HorizontalAlignment="Stretch"
-                          TextAlignment="Right"
-                          Text="{Binding Annuity, Converter={StaticResource currency}, ConverterParameter=€}"
-                          GotFocus="txtAnnuity_GotFocus" 
-                          />
-            </DockPanel>
+        <TextBlock Grid.Row="4" 
+                   Grid.Column="0" 
+                   Text="Annuity: " />
 
-            <DockPanel>
-                <TextBlock Text="Credit period: " />
+        <TextBox  x:Name="txtAnnuity"
+                  Grid.Row="4" 
+                  Grid.Column="1" 
+                  TextAlignment="Right"
+                  Text="{Binding Annuity, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
+                  IsTabStop="False"
+                  KeyUp="txtAnnuity_KeyUp" />
 
-                <TextBox  x:Name="txtCreditPeriod"
-                          HorizontalAlignment="Stretch"
-                          TextAlignment="Right"
-                          Text="{Binding CreditPeriod}" GotFocus="txtCreditPeriod_GotFocus">
-                </TextBox>
-            </DockPanel>
-        </StackPanel>
+        <TextBlock Grid.Row="5" 
+                   Grid.Column="0" 
+                   Text="Credit period: " />
+
+        <TextBox  x:Name="txtCreditPeriod"
+                  Grid.Row="5" 
+                  Grid.Column="1" 
+                  TextAlignment="Right"
+                  Text="{Binding CreditPeriod, Mode=TwoWay}" 
+                  IsTabStop="False"
+                  KeyUp="txtCreditPeriod_KeyUp" />
         
     </Grid>
 </Window>
