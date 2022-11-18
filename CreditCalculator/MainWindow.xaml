@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CreditCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="500"
+        Title="CreditCalculator" Height="650" Width="500"
         
         xmlns:vc="clr-namespace:CreditCalculator.ValueConverter"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -23,6 +23,7 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -50,11 +51,25 @@
                 <Setter Property="TextAlignment" Value="Right" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+                <Setter Property="BorderBrush" Value="#959595" />
+                <Setter Property="BorderThickness" Value="0,1" />
+            </Style>
         </Grid.Resources>
 
+        <Border Grid.Row="0"
+                Grid.Column="0"
+                BorderThickness="0,0,0,1" />
+        
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
-                   Text="test" />
+                   Grid.ColumnSpan="2"
+                   FontWeight="Light"
+                   FontSize="18"
+                   TextWrapping="Wrap"
+                   Text="{Binding Intro}" />
 
         <TextBlock Grid.Row="1" 
                    Grid.Column="0" 
@@ -67,7 +82,7 @@
 
         <TextBlock Grid.Row="2" 
                    Grid.Column="0" 
-                   Text="Interest rate p.a. (%): " />
+                   Text="Interest rate p.a.: " />
 
         <TextBox Grid.Row="2" 
                  Grid.Column="1"
@@ -86,10 +101,7 @@
 
         <Border Grid.Row="4" 
                 Grid.RowSpan="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                BorderBrush="#959595" 
-                BorderThickness="0,1" />
+                Grid.Column="0" />
         
         <TextBlock Grid.Row="4" 
                    Grid.Column="0" 
@@ -116,6 +128,28 @@
                   IsTabStop="False"
                   Background="#E3E3E3"
                   KeyUp="txtCreditPeriod_KeyUp" />
+
+
+        <TextBlock Grid.Row="6" 
+                   Grid.Column="0" 
+                   Text="Last payment: " />
+
+        <TextBox  Grid.Row="6" 
+                  Grid.Column="1" 
+                  TextAlignment="Right"
+                  Text="{Binding LastPayment, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}" 
+                  IsEnabled="False" />
+
+
+        <TextBlock Grid.Row="7" 
+                   Grid.Column="0" 
+                   Text="Total paid interest: " />
+
+        <TextBox  Grid.Row="7" 
+                  Grid.Column="1" 
+                  TextAlignment="Right"
+                  Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
+                  IsEnabled="False" />
 
     </Grid>
 </Window>

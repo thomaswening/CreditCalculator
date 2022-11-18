@@ -16,17 +16,24 @@ namespace CreditCalculator
 
         #region Fields
 
-        double? loanAmount = 30000;
-        double? annuity;
+        double? loanAmount = 30000;        
         double? interestRatePerYear = .055;
+        double? annuity;
+        double? lastPayment;
+        double? totalPaidInterest;
         int? creditPeriod;
         int? paymentsPerYear = 12;
 
         readonly PaymentPlan paymentPlan = new();
 
+        const string INTRO = "Welcome! Pressing ENTER in the field annuity or credit period " +
+            "will cause the other quantity to be computed for you.";
+
         #endregion Fields
 
         #region Properties
+
+        public static string Intro => INTRO;
 
         public double? LoanAmount
         {
@@ -37,6 +44,21 @@ namespace CreditCalculator
                 {
                     loanAmount = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LoanAmount)));
+
+                    UpdateModel();
+                }
+            }
+        }
+                
+        public double? InterestRatePerYear
+        {
+            get => interestRatePerYear;
+            set
+            {
+                if (interestRatePerYear != value)
+                {
+                    interestRatePerYear = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(interestRatePerYear)));
 
                     UpdateModel();
                 }
@@ -58,15 +80,30 @@ namespace CreditCalculator
             }
         }
 
-        public double? InterestRatePerYear
+        public double? LastPayment
         {
-            get => interestRatePerYear;
+            get => lastPayment;
             set
             {
-                if (interestRatePerYear != value)
+                if (lastPayment != value)
                 {
-                    interestRatePerYear = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(interestRatePerYear)));
+                    lastPayment = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LastPayment)));
+
+                    UpdateModel();
+                }
+            }
+        }
+
+        public double? TotalPaidInterest
+        {
+            get => totalPaidInterest;
+            set
+            {
+                if (totalPaidInterest != value)
+                {
+                    totalPaidInterest = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalPaidInterest)));
 
                     UpdateModel();
                 }
@@ -143,6 +180,14 @@ namespace CreditCalculator
                     CreditPeriod = paymentPlan.CreditPeriod;
                     break;
 
+                case nameof(paymentPlan.LastPayment):
+                    LastPayment = paymentPlan.LastPayment;
+                    break;
+
+                case nameof(paymentPlan.TotalPaidInterest):
+                    TotalPaidInterest = paymentPlan.TotalPaidInterest;
+                    break;
+
                 default:
                     throw new NotImplementedException();
             }
@@ -172,16 +217,30 @@ namespace CreditCalculator
                 paymentPlan.InterestRatePerYear = (double)InterestRatePerYear!;
                 paymentPlan.PaymentsPerYear = (int)PaymentsPerYear!;
 
-                // Check which of (Annuity, CreditPeriod) must be calculated from the other
-                if (Annuity is null)
+                try                
                 {
-                    paymentPlan.CreditPeriod = (int)CreditPeriod!;
-                    paymentPlan.CalculateAnnuity();
+                    // Check which of (Annuity, CreditPeriod) must be calculated from the other
+
+                    if (Annuity is null)
+                    {
+                        paymentPlan.CreditPeriod = (int)CreditPeriod!;
+                        paymentPlan.CalculateAnnuity();
+                        paymentPlan.CalculateLastPayment();
+                        paymentPlan.CalculateTotalPaidInterest();
+                    }
+                    else
+                    {
+                        paymentPlan.Annuity = (double)Annuity!;
+                        paymentPlan.CalculateCreditPeriod();
+                        paymentPlan.CalculateLastPayment();
+                        paymentPlan.CalculateTotalPaidInterest();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    paymentPlan.Annuity = (double)Annuity!;
-                    paymentPlan.CalculateCreditPeriod();
+                    MessageBox.Show(e.Message);
+                    ClearAnnuity();
+                    ClearCreditPeriod();
                 }
             }
         }
