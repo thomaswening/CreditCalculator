@@ -29,6 +29,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -83,6 +84,13 @@
                   TextAlignment="Right"
                   Text="{Binding PaymentsPerYear}" />
 
+        <Border Grid.Row="4" 
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                BorderBrush="#959595" 
+                BorderThickness="0,1" />
+        
         <TextBlock Grid.Row="4" 
                    Grid.Column="0" 
                    Text="Annuity: " />
@@ -93,6 +101,7 @@
                   TextAlignment="Right"
                   Text="{Binding Annuity, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
                   IsTabStop="False"
+                  Background="#E3E3E3"
                   KeyUp="txtAnnuity_KeyUp" />
 
         <TextBlock Grid.Row="5" 
@@ -105,7 +114,8 @@
                   TextAlignment="Right"
                   Text="{Binding CreditPeriod, Mode=TwoWay}" 
                   IsTabStop="False"
+                  Background="#E3E3E3"
                   KeyUp="txtCreditPeriod_KeyUp" />
-        
+
     </Grid>
 </Window>
