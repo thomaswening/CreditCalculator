@@ -16,18 +16,17 @@ namespace CreditCalculator
 
         #region Fields
 
-        double? loanAmount = 30000;        
+        const string INTRO = "Welcome! Pressing ENTER in the field annuity or credit period " +
+            "will cause the other quantity to be computed for you.";
+
+        readonly PaymentPlan paymentPlan = new();
+        double? loanAmount = 30000;
         double? interestRatePerYear = .055;
         double? annuity;
         double? lastPayment;
         double? totalPaidInterest;
         int? creditPeriod;
         int? paymentsPerYear = 12;
-
-        readonly PaymentPlan paymentPlan = new();
-
-        const string INTRO = "Welcome! Pressing ENTER in the field annuity or credit period " +
-            "will cause the other quantity to be computed for you.";
 
         #endregion Fields
 
@@ -114,6 +113,7 @@ namespace CreditCalculator
 
         public double? TimesLoanAmount => TotalPaidInterest / LoanAmount;
         public double? TotalPayments => TotalPaidInterest + LoanAmount;
+        public string CreditPeriodTimeString => TimeString.Convert(PaymentsPerYear, CreditPeriod);
 
         public int? CreditPeriod
         {
@@ -124,6 +124,7 @@ namespace CreditCalculator
                 {
                     creditPeriod = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreditPeriod)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreditPeriodTimeString)));
 
                     UpdateModel();
                 }
@@ -162,10 +163,39 @@ namespace CreditCalculator
 
         #endregion Events
 
-        #region Private Methods
+        #region Public Methods
 
         public void ClearAnnuity() => Annuity = null;
         public void ClearCreditPeriod() => CreditPeriod = null;
+
+        public void Recalculate(object sender, KeyEventArgs e)
+        {
+            ClearAnnuity();
+            ClearCreditPeriod();
+            OnKeyEnterUp(sender, e);
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Enables Binding already after hitting the ENTER key.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void OnKeyEnterUp(object sender, KeyEventArgs e)
+        {
+            TextBox tBox = (TextBox)sender;
+            DependencyProperty prop = TextBox.TextProperty;
+
+            BindingExpression binding = BindingOperations.GetBindingExpression(tBox, prop);
+            if (binding != null) { binding.UpdateSource(); }
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Updates the ViewModel's Annuity and CreditPeriod fields when the model has changed.
@@ -248,20 +278,6 @@ namespace CreditCalculator
                     ClearCreditPeriod();
                 }
             }
-        }
-
-        /// <summary>
-        /// Enables Binding already after hitting the ENTER key.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        internal void OnKeyEnterUp(object sender, KeyEventArgs e)
-        {            
-            TextBox tBox = (TextBox)sender;
-            DependencyProperty prop = TextBox.TextProperty;
-
-            BindingExpression binding = BindingOperations.GetBindingExpression(tBox, prop);
-            if (binding != null) { binding.UpdateSource(); }
         }
 
         #endregion Private Methods

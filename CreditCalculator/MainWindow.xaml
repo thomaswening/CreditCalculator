@@ -77,29 +77,32 @@
                    Grid.Column="0" 
                    Text="Loan amount: " />
 
-        <TextBox Grid.Row="1" 
+        <TextBox x:Name="txtLoanAmount" 
+                 Grid.Row="1" 
                  Grid.Column="1" 
                  TextAlignment="Right"
-                 Text="{Binding LoanAmount, Converter={StaticResource currency}, ConverterParameter=€}" />
+                 Text="{Binding LoanAmount, Converter={StaticResource currency}, ConverterParameter=€}" KeyUp="txtLoanAmount_KeyUp" />
 
         <TextBlock Grid.Row="2" 
                    Grid.Column="0" 
                    Text="Interest rate p.a.: " />
 
-        <TextBox Grid.Row="2" 
+        <TextBox x:Name="txtInterestRatePerYear"
+                 Grid.Row="2" 
                  Grid.Column="1"
                  TextAlignment="Right" 
-                 Text="{Binding InterestRatePerYear, Converter={StaticResource percent}}" />
+                 Text="{Binding InterestRatePerYear, Converter={StaticResource percent}}" KeyUp="txtInterestRatePerYear_KeyUp" />
 
         <TextBlock Grid.Row="3" 
                    Grid.Column="0" 
                    Text="Payments p.a.: " />
 
-        <TextBox  Grid.Row="3" 
+        <TextBox  x:Name="txtPaymentsPerYear"
+                  Grid.Row="3" 
                   Grid.Column="1" 
                   HorizontalAlignment="Stretch"
                   TextAlignment="Right"
-                  Text="{Binding PaymentsPerYear}" />
+                  Text="{Binding PaymentsPerYear}" KeyUp="txtPaymentsPerYear_KeyUp" />
 
         <Border Grid.Row="4" 
                 Grid.RowSpan="2"
@@ -122,14 +125,23 @@
                    Grid.Column="0" 
                    Text="Credit period: " />
 
-        <TextBox  x:Name="txtCreditPeriod"
-                  Grid.Row="5" 
-                  Grid.Column="1" 
-                  TextAlignment="Right"
-                  Text="{Binding CreditPeriod, Mode=TwoWay}" 
-                  IsTabStop="False"
-                  Background="#E3E3E3"
-                  KeyUp="txtCreditPeriod_KeyUp" />
+        <StackPanel Grid.Row="5" 
+                    Grid.Column="1">
+            
+            <TextBox  x:Name="txtCreditPeriod"
+                      TextAlignment="Right"
+                      Text="{Binding CreditPeriod, Mode=TwoWay}" 
+                      IsTabStop="False"
+                      Background="#E3E3E3"
+                      KeyUp="txtCreditPeriod_KeyUp" />
+
+            <TextBlock Margin="5,0"
+                       Padding="5,0,5,5"
+                       FontSize="15"
+                       TextAlignment="Right"
+                       Text="{Binding CreditPeriodTimeString}" />
+
+        </StackPanel>
 
 
         <TextBlock Grid.Row="6" 
@@ -154,9 +166,7 @@
                       Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€}"
                       IsEnabled="False" />
 
-            <TextBlock Grid.Row="7" 
-                       Grid.Column="1"
-                       Margin="5,0"
+            <TextBlock Margin="5,0"
                        Padding="5,0,5,5"
                        FontSize="15"
                        TextAlignment="Right"

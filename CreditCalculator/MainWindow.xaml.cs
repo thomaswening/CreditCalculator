@@ -42,5 +42,20 @@ namespace CreditCalculator
                 ((ViewModel)DataContext).OnKeyEnterUp(sender, e);
             }
         }
+
+        private void txtLoanAmount_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) ((ViewModel)DataContext).Recalculate(sender, e);
+        }
+
+        private void txtInterestRatePerYear_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) ((ViewModel)DataContext).Recalculate(sender, e);
+        }
+
+        private void txtPaymentsPerYear_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) ((ViewModel)DataContext).Recalculate(sender, e);
+        }
     }
 }
