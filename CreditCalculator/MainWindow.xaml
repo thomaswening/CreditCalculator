@@ -32,6 +32,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -138,7 +139,7 @@
         <TextBox  Grid.Row="6" 
                   Grid.Column="1" 
                   TextAlignment="Right"
-                  Text="{Binding LastPayment, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}" 
+                  Text="{Binding LastPayment, Converter={StaticResource currency}, ConverterParameter=€}" 
                   IsEnabled="False" />
 
 
@@ -150,7 +151,7 @@
                     Grid.Column="1">
             
             <TextBox  TextAlignment="Right"
-                      Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
+                      Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€}"
                       IsEnabled="False" />
 
             <TextBlock Grid.Row="7" 
@@ -162,6 +163,16 @@
                        Text="{Binding TimesLoanAmount, Converter={StaticResource timesLoanAmount}}" />
             
         </StackPanel>
+
+        <TextBlock Grid.Row="8" 
+                   Grid.Column="0" 
+                   Text="Total payments: " />
+
+        <TextBox  Grid.Row="8" 
+                  Grid.Column="1" 
+                  TextAlignment="Right"
+                  Text="{Binding TotalPayments, Converter={StaticResource currency}, ConverterParameter=€, Mode=OneWay}" 
+                  IsEnabled="False" />
 
     </Grid>
 </Window>
