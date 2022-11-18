@@ -18,7 +18,8 @@
 
     <Window.Resources>
         <vc:CurrencyVC x:Key="currency"/>
-        <vc:PercentVC x:Key="percent"/>        
+        <vc:PercentVC x:Key="percent"/>
+        <vc:TimesLoanAmountVC x:Key="timesLoanAmount"/>
     </Window.Resources>
 
     <Grid Margin="10">
@@ -145,11 +146,22 @@
                    Grid.Column="0" 
                    Text="Total paid interest: " />
 
-        <TextBox  Grid.Row="7" 
-                  Grid.Column="1" 
-                  TextAlignment="Right"
-                  Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
-                  IsEnabled="False" />
+        <StackPanel Grid.Row="7" 
+                    Grid.Column="1">
+            
+            <TextBox  TextAlignment="Right"
+                      Text="{Binding TotalPaidInterest, Converter={StaticResource currency}, ConverterParameter=€, Mode=TwoWay}"
+                      IsEnabled="False" />
+
+            <TextBlock Grid.Row="7" 
+                       Grid.Column="1"
+                       Margin="5,0"
+                       Padding="5,0,5,5"
+                       FontSize="15"
+                       TextAlignment="Right"
+                       Text="{Binding TimesLoanAmount, Converter={StaticResource timesLoanAmount}}" />
+            
+        </StackPanel>
 
     </Grid>
 </Window>

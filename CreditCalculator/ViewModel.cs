@@ -104,11 +104,14 @@ namespace CreditCalculator
                 {
                     totalPaidInterest = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalPaidInterest)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimesLoanAmount)));
 
                     UpdateModel();
                 }
             }
         }
+
+        public double? TimesLoanAmount => TotalPaidInterest / LoanAmount;
 
         public int? CreditPeriod
         {
