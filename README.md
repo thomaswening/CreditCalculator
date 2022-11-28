@@ -16,3 +16,4 @@ Just compile and run. You type in the necessary parameters and the calculation i
 I use C# for the backend logic and WPF for the frontend.
 
 ## License
+GNU General Public License v3.0
