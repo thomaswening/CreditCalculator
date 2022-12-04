@@ -1,13 +1,11 @@
 # CreditCalculator
-Application for the calculation of an annuity loan
+Application for the calculation of annuity loans.
 
 ## Description
-*CreditCalculator* can be used to simulate different scenarios for an annuity loan. 
-Asides from finding it a useful tool, I work on this project mainly to hone my WPF skills.
+*CreditCalculator* can be used to simulate different scenarios for annuity loans. By typing in a range of parameters, the user can calculate the remaining quantities.
 
 ## Features
-Given a set of input parameters, *CreditCalculator* determines the either the credit period or the annuity.
-Moreover, the last payment, total paid interest and the total payments are calculated.
+Given a set of input parameters, *CreditCalculator* determines the either the credit period or the annuity. Moreover, the last payment, total paid interest and the total payments are calculated.
 
 ## Upcoming features
 - Use of different currencies, definition of presets
